@@ -21,12 +21,11 @@ namespace DeviantGames.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public virtual ICollection<Game> Library { get; set; } // games owned by user
-        public virtual ICollection<Game> Wishlist { get; set; }
+        public Wishlist Wishlist { get; set; }
 
         public Client()
         {
             this.Library = new List<Game>();
-            this.Wishlist = new List<Game>();
         }
     }
 }

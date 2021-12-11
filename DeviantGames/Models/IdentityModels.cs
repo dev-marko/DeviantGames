@@ -23,6 +23,7 @@ namespace DeviantGames.Models
         public DbSet<Game> Games { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Genre> Genres { get; set; }
+        public DbSet<Wishlist> Wishlists { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

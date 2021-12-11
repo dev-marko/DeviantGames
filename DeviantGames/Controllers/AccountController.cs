@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using DeviantGames.Models;
+using System.Collections.Generic;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DeviantGames.Controllers
 {
@@ -50,6 +52,45 @@ namespace DeviantGames.Controllers
             {
                 _userManager = value;
             }
+        }
+
+        private List<string> GetRoles()
+        {
+            var roleStore = new RoleStore<IdentityRole>();
+            var roleManager = new RoleManager<IdentityRole>(roleStore);
+            var IdentityRolelist = roleManager.Roles.ToList();
+
+            List<string> rolelist = new List<string>();
+            foreach (var role in IdentityRolelist)
+            {
+                rolelist.Add(role.Name);
+            }
+            return rolelist;
+        }
+
+        public ActionResult AddUserToRole()
+        {
+            AddToRoleModel model = new AddToRoleModel();
+
+            model.Roles = GetRoles();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AddUserToRole(AddToRoleModel model)
+        {
+            var email = model.Email;
+            var user = UserManager.FindByEmail(email);
+
+            if (user == null)
+            {
+                throw new HttpException(404, "User not found");
+            }
+
+            UserManager.AddToRole(user.Id, model.SelectedRole);
+
+            return RedirectToAction("Index", "Clients");
         }
 
         //

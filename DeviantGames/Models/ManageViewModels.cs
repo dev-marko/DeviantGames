@@ -83,4 +83,11 @@ namespace DeviantGames.Models
         public string SelectedProvider { get; set; }
         public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
     }
+
+    public class AddToRoleModel
+    {
+        public string Email { get; set; }
+        public List<string> Roles { get; set; }
+        public string SelectedRole { get; set; }
+    }
 }

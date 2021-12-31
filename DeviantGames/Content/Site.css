@@ -22,3 +22,28 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.logo {
+    display: inline-block;
+    height: auto;
+    width: 128px;
+    margin-top: -30px;
+    margin-right: 30px;
+}
+
+.nav-links {
+    margin-top: 10px;
+    font-size: large;
+}
+
+.nav-links ul li:hover {
+    color: #18bc9c;
+}
+
+footer {
+    text-align: center;
+}
+
+.tx-color {
+    color: black;
+}

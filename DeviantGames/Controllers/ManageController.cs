@@ -7,6 +7,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using DeviantGames.Models;
+using System.Web.Security;
+using System.Collections.Generic;
 
 namespace DeviantGames.Controllers
 {
@@ -63,9 +65,13 @@ namespace DeviantGames.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
 
+            IList<string> roles = UserManager.GetRolesAsync(User.Identity.GetUserId()).Result;
+
             var userId = User.Identity.GetUserId();
             var model = new IndexViewModel
             {
+                UserName = User.Identity.GetUserName(),
+                Role = roles,
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),

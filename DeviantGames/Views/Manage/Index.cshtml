@@ -10,6 +10,17 @@
     <h4>Change your account settings</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>User:</dt>
+        <dd>
+            @Model.UserName
+        </dd>
+        <dt>Role:</dt>
+        <dd>
+            @foreach (string r in Model.Role)
+            {
+                @r
+            }
+        </dd>
         <dt>Password:</dt>
         <dd>
             [

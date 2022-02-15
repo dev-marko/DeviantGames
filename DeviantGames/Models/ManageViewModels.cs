@@ -7,6 +7,8 @@ namespace DeviantGames.Models
 {
     public class IndexViewModel
     {
+        public string UserName { get; set; }
+        public IList<string> Role { get; set; }
         public bool HasPassword { get; set; }
         public IList<UserLoginInfo> Logins { get; set; }
         public string PhoneNumber { get; set; }

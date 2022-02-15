@@ -68,6 +68,7 @@ namespace DeviantGames.Controllers
             return rolelist;
         }
 
+        // GET: /Account/AddUserToRole
         public ActionResult AddUserToRole()
         {
             AddToRoleModel model = new AddToRoleModel();
@@ -78,6 +79,8 @@ namespace DeviantGames.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
+        // POST: /Account/AddUserToRole
         public ActionResult AddUserToRole(AddToRoleModel model)
         {
             var email = model.Email;

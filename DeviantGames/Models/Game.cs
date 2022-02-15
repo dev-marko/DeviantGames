@@ -14,9 +14,13 @@ namespace DeviantGames.Models
         public string Title { get; set; }
         public string Developer { get; set; }
         public string Publisher { get; set; }
+        [Display(Name = "Cover Image")]
         public string CoverImage { get; set; }
         public decimal Price { get; set; }  // rabotime samo so euraaa
         public string Description { get; set; }
+
+        [Display(Name = "Release Date")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime ReleaseDate { get; set; }
         public virtual ICollection<Client> Clients { get; set; }
         public virtual ICollection<Genre> Genres { get; set; }

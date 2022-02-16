@@ -23,6 +23,14 @@
                     <li>@Html.ActionLink("Store", "Index", "Games")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @if (User.IsInRole("User"))
+                    {
+                        <li>@Html.ActionLink("My Library", "Index", "Home")</li>
+                    }
+                    @if (User.IsInRole("User"))
+                    {
+                        <li>@Html.ActionLink("Wishlist", "Index", "Home")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

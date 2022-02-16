@@ -16,7 +16,9 @@ namespace DeviantGames.Models
         public string Publisher { get; set; }
         [Display(Name = "Cover Image")]
         public string CoverImage { get; set; }
-        public decimal Price { get; set; }  // rabotime samo so euraaa
+
+        [DataType(DataType.Currency)]
+        public decimal Price { get; set; }
         public string Description { get; set; }
 
         [Display(Name = "Release Date")]
@@ -31,6 +33,11 @@ namespace DeviantGames.Models
             this.Genres = new List<Genre>();
             this.Clients = new List<Client>();
             this.Wishlists = new List<Wishlist>();
+        }
+
+        public void AddGenre(Genre g)
+        {
+            this.Genres.Add(g);
         }
     }
 }

@@ -12,70 +12,98 @@
     }
 
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Developer)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Publisher)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CoverImage)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReleaseDate)
-        </th>
-        <th></th>
-    </tr>
+<table id="store-table" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CoverImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th></th>
+        </tr>
+    </thead>   
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Developer)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Publisher)
-        </td>
-        <td>
-            <img src="@item.CoverImage" height="200" width="130"/>
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReleaseDate)
-        </td>
-        <td>
-            @if (User.IsInRole("Admin"))
-            {
-                //<button data-movie-id="@item.id" class="btn-link js-delete">Delete</button>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-            }
-            |
-            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-            @if (User.IsInRole("Admin"))
-            {
-                //<button data-movie-id="@item.id" class="btn-link js-delete">Delete</button>
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            }
-        </td>
-    </tr>
-}
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="font-size: 16px; font-weight: bold;">
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    <img src="@item.CoverImage" height="200" width="130" />
+                </td>
+                <td style="font-size: 16px; font-weight: bold;">
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        //@Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                        <button class="btn-warning" onclick="location.href='@Url.Action("Edit", "Games", new { id = item.Id })'">Edit</button>
+                    }
+                    <br />
+                    <button class="btn-info" onclick="location.href='@Url.Action("Details", "Games", new { id = item.Id })'">Details</button>
+                    <br />
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <button data-game-id="@item.Id" class="btn-danger js-delete">Delete</button>
+                    }
+                    <button class="btn-success">Buy</button>
+                    <br />
+                    <button class="btn-primary">Wishlist</button>
+                </td>
+            </tr>
+        }
+    </tbody>
 
 </table>
+
+<style>
+    td button {
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+</style>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var table = $('#store-table').DataTable();
+            $('#store-table .js-delete').on('click', function () {
+                var button = $(this);
+                bootbox.confirm({
+                    title: "Remove game?",
+                    message: "Do you want to remove this game from the store?",
+                    buttons: {
+                        cancel: {
+                            label: '<i class="fa fa-times"></i> Cancel'
+                        },
+                        confirm: {
+                            label: '<i class="fa fa-check"></i> Confirm'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: "/api/GamesApi/" + button.attr('data-game-id'),
+                                method: "DELETE",
+                                success: function () {
+                                    table.row(button.parents('tr')).remove().draw();
+                                },
+                                error: function (err) {
+                                    console.log(err);
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
